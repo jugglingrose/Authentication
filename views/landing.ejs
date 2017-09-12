@@ -1,0 +1,21 @@
+<% include partials/header.ejs %>
+
+<body>
+  <div class="container">
+    <section>
+      <div class="row">
+        <div id="log" class="col-xs-8 col-xs-offset-2 border">
+          <h1>LOG IN</h1>
+          <form method="POST" action="/">
+            User Name: <br>
+            <input type="text" name="username"></br>
+            Password: <br>
+            <input type="password" name="password"></br>
+            <button type="submit" value="submit">SUBMIT</button>
+          </form>
+          Not a user?<a href="/signup">Click Here</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
