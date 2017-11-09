@@ -44,7 +44,7 @@ app.post('/', function(req,res){
     else
     {
       console.log(user.password);
-      //compare username and password
+      //compare username and password. Must compare bcrype password//
       bcrypt.compare( password, user.password, function(err, result) {
         if(result) {
           // Passwords match
@@ -106,7 +106,7 @@ MongoClient.connect(config.mongo_uri, function(err, database) {
   if (err) throw err;
   console.log('sucessfuly connected to database');
   db = database;
-  app.listen(3000, function (){
+  app.listen(8080, function (){
     console.log("successfully started the server");
   });
 });
