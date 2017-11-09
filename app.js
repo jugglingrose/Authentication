@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 //Access Mongo DB PW & Cookie Secret//
-var config = require('./config');
+var config = require('./config.secret');
 
 //connect to Mongo Db//
 var mongo = require('mongodb');
