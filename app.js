@@ -4,6 +4,9 @@ var app = express();
 //Access Mongo DB PW & Cookie Secret//
 var config = require('./config.secret');
 
+const expressMongoDb = require('express-mongo-db');
+app.use(expressMongoDb(config.mongo_uri));
+
 //connect to Mongo Db//
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
@@ -22,7 +25,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }))
 
 //Bcrypt for password hashing//
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 
@@ -36,7 +39,7 @@ app.post('/', function(req,res){
   var username = req.body.username;
   var password = req.body.password;
   //search username in database
-  db.collection('Authenticate').findOne({username: username}, function (err, user){
+  req.db.collection('Authenticate').findOne({username: username}, function (err, user){
     if (!user){
       console.log('username not found');
       res.redirect('/');
@@ -85,7 +88,7 @@ app.post('/signup', function(req, res){
   var email = req.body.email;
   //hash password then insert into database//
   bcrypt.hash(password, saltRounds, function(err, hash) {
-    db.collection('Authenticate').insertOne({'name': name, 'username': username,
+    req.db.collection('Authenticate').insertOne({'name': name, 'username': username,
     'email': email, 'password': hash}, function(err, result){
       if (err) throw err;
       console.log("document inserted");
@@ -100,13 +103,10 @@ app.get('/signout', function(req,res){
   res.redirect('/');
 });
 
+if (require.main === module) {
+    app.listen(config.port, function() {
+        console.log("Local server started");
+    });
+}
 
-//Connect to DB & Server //
-MongoClient.connect(config.mongo_uri, function(err, database) {
-  if (err) throw err;
-  console.log('sucessfuly connected to database');
-  db = database;
-  app.listen(8080, function (){
-    console.log("successfully started the server");
-  });
-});
+module.exports = app;
