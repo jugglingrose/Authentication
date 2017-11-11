@@ -6,13 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./app.js",
-    "lambda-deploy" : "zip -r -X /tmp/lambda.zip . && aws lambda update-function-code --function-name $npm_package_config_lambda_name --zip-file fileb:///tmp/lambda.zip --publish"
-
-
+    "lambda-deploy": "zip -r -X /tmp/lambda.zip * && aws lambda update-function-code --function-name $npm_package_config_lambda_name --zip-file fileb:///tmp/lambda.zip --publish"
   },
   "author": "Corean Gonzales",
   "license": "ISC",
   "dependencies": {
+    "aws-serverless-express": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "client-sessions": "^0.8.0",
@@ -23,8 +22,7 @@
     "express-validator": "^4.1.1",
     "mongodb": "^2.2.31"
   },
-  "config" : {
-    "lambda-name" : "corean-authenticate"
+  "config": {
+    "lambda-name": "corean-authenticate"
   }
-
 }
